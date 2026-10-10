@@ -17,8 +17,7 @@ build_record_format_version <- 1L
 #' @noRd
 build_record_path <- function(exe_file) {
   checkmate::assert_string(exe_file)
-  file.path(
-    dirname(exe_file),
+  file.path( dirname(exe_file),
     paste0(".", basename(exe_file), ".cmdstanr.json")
   )
 }
@@ -48,8 +47,7 @@ is_json_object <- function(x) {
     !anyDuplicated(names(x))
 }
 
-is_json_array <- function(x) {
-  is.list(x) && is.null(names(x))
+is_json_array <- function(x) { is.list(x) && is.null(names(x))
 }
 
 record_shapes <- list(
@@ -61,8 +59,7 @@ record_shapes <- list(
     test = checkmate::test_flag,
     requirement = "must be true or false"
   ),
-  object = list(test = is_json_object, requirement = "must be a JSON object"),
-  array = list(test = is_json_array, requirement = "must be a JSON array")
+  object = list(test = is_json_object, requirement = "must be a JSON object"),array = list(test = is_json_array, requirement = "must be a JSON array")
 )
 
 cmdstan_version_pattern <- "^[0-9]+\\.[0-9]+\\.[0-9]+(-rc[0-9]+)?$"
@@ -75,7 +72,8 @@ cmdstan_version_pattern <- "^[0-9]+\\.[0-9]+\\.[0-9]+(-rc[0-9]+)?$"
 #'   field `x` ...".
 #' @return Does not return.
 #' @noRd
-stop_build_record_field <- function(field, requirement) {
+stop_build_record_field <- function(field, requirement) 
+{
   stop("build record field `", field, "` ", requirement, ".", call. = FALSE)
 }
 
@@ -91,11 +89,10 @@ stop_build_record_field <- function(field, requirement) {
 assert_record_shape <- function(value, shape, field) {
   if (is.null(value)) {
     stop_build_record_field(field, "is missing")
-  }
+  };  
   if (!record_shapes[[shape]]$test(value)) {
     stop_build_record_field(field, record_shapes[[shape]]$requirement)
-  }
-  invisible(value)
+  };  invisible(value)
 }
 
 assert_record_member <- function(x, name, shape, field = name) {
@@ -147,7 +144,7 @@ assert_record_dependency_entry <- function(value, field) {
 #' @return `record`, invisibly. A failed check is an error naming the field.
 #' @noRd
 validate_build_record <- function(record) {
-  assert_record_shape(record, "object", "record")
+                    assert_record_shape(record, "object", "record")
 
   configuration <- assert_record_member(record, "configuration", "object")
   cpp_options <- assert_record_member(
